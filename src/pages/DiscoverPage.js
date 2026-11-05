@@ -152,6 +152,9 @@ class DiscoverPage extends Page {
         return `
             <div class="page discover-page">
                 <main class="page-content discover-content">
+                    <div class="discover-controls" id="discover-header">
+                        <button class="discover-requests-link" id="discover-requests-link" tabindex="0">${i18n.t('SeerrManageRequests')}</button>
+                    </div>
                     <div class="discover-rows" id="discover-rows"></div>
 
                     <!-- Sentinel element observed by IntersectionObserver for smooth lazy loading on scroll -->
@@ -170,6 +173,13 @@ class DiscoverPage extends Page {
         this.setLoading(true);
 
         i18n.translateDOM(this.el);
+
+        // Entry point to the lightweight request tracker / approval queue
+        this.registerFocusSection('discover-header', this.$('#discover-header'), {
+            orientation: 'horizontal',
+            leaveLeft: 'sidebar'
+        });
+        this.$('#discover-requests-link').addEventListener('click', () => router.navigate('/seerr/requests'));
 
         // Attach event delegation for clicks and focus tracking on cards
         this._attachDelegatedListeners();
@@ -702,7 +712,7 @@ class DiscoverPage extends Page {
             const prevKey = index > 0 ? this._orderedRowKeys[index - 1] : null;
             const nextKey = index < rowCount - 1 ? this._orderedRowKeys[index + 1] : null;
 
-            config.leaveUp = prevKey ? `discover-row-${prevKey}` : null;
+            config.leaveUp = prevKey ? `discover-row-${prevKey}` : 'discover-header';
             config.leaveDown = nextKey ? `discover-row-${nextKey}` : null;
 
             // If this is the last rendered row but more descriptors exist, trigger on-demand load when navigating down

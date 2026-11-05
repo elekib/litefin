@@ -659,6 +659,9 @@ const seerrDetailsChunk = createPageChunkLoader(
 const seerrPersonChunk = createPageChunkLoader(
     () => import(/* webpackChunkName: "seerr" */ '../pages/SeerrPersonPage.js')
 );
+const seerrRequestsChunk = createPageChunkLoader(
+    () => import(/* webpackChunkName: "seerr" */ '../pages/SeerrRequestsPage.js')
+);
 const discoverChunk = createPageChunkLoader(
     () => import(/* webpackChunkName: "discover" */ '../pages/DiscoverPage.js')
 );
@@ -865,6 +868,15 @@ class SeerrDetailsPage extends AsyncPageProxy {
 class SeerrPersonPage extends AsyncPageProxy {
     constructor(options) {
         super(options, seerrPersonChunk);
+    }
+}
+
+/**
+ * Route proxy for the Seerr request tracker (shares the seerr chunk).
+ */
+class SeerrRequestsPage extends AsyncPageProxy {
+    constructor(options) {
+        super(options, seerrRequestsChunk);
     }
 }
 
@@ -2201,6 +2213,7 @@ class App {
         router.register('/library/:id/person/:personId', LibraryPage); // Filtered by Person
         router.register('/library/:id/tag/:tagName', LibraryPage); // Filtered by Tag
         router.register('/details/:id', DetailsPage);
+        router.register('/seerr/requests', SeerrRequestsPage);
         router.register('/seerr/person/:id', SeerrPersonPage);
         router.register('/seerr/:mediaType/:tmdbId', SeerrDetailsPage);
         router.register('/person/:id', PersonPage);

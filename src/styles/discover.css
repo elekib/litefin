@@ -583,3 +583,263 @@ html[data-layout-media-rows="modern-posters"] .media-card.seerr-genre-card .card
     align-items: center;
     gap: 8px;
 }
+
+/* ========================================================================
+   Discover -> Requests entry link
+   ======================================================================== */
+
+.discover-requests-link {
+    padding: 10px 22px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background: var(--jf-surface, rgba(255, 255, 255, 0.08));
+    color: var(--jf-text-secondary);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.discover-requests-link:hover,
+.discover-requests-link:focus,
+.discover-requests-link.focused {
+    color: var(--jf-text-primary, #fff);
+    border-color: var(--jf-accent, #00a4dc);
+    outline: none;
+}
+
+/* ========================================================================
+   Seerr requests page
+   ======================================================================== */
+
+.seerr-requests-content {
+    padding: 32px 60px !important;
+}
+
+.seerr-requests-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.seerr-requests-chip,
+.seerr-requests-btn {
+    padding: 14px 30px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--jf-text-secondary);
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.seerr-requests-chip.active {
+    color: #fff;
+    border-color: transparent;
+    background: var(--jf-accent, #6c5ce7);
+}
+
+.seerr-requests-chip:focus,
+.seerr-requests-chip.focused,
+.seerr-requests-btn:focus,
+.seerr-requests-btn.focused {
+    border-color: var(--jf-text-primary, #fff);
+    outline: none;
+}
+
+/* Selection ring sits on the whole card, not the inner poster/info button */
+.seerr-requests-open:focus,
+.seerr-requests-open.focused {
+    outline: none;
+}
+
+.seerr-requests-card:focus-within,
+.seerr-requests-card:has(.seerr-requests-open.focused) {
+    border-color: var(--jf-text-primary, #fff);
+}
+
+.seerr-requests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(560px, 1fr));
+    gap: 28px;
+}
+
+.seerr-requests-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 22px;
+    border: 3px solid transparent;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.seerr-requests-open {
+    display: flex;
+    gap: 24px;
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--jf-text-primary, #fff);
+    text-align: start;
+    cursor: pointer;
+}
+
+.seerr-requests-poster {
+    flex: none;
+    width: 180px;
+    height: 270px;
+    border-radius: 6px;
+    object-fit: cover;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.seerr-requests-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.seerr-requests-name {
+    font-size: 1.7rem;
+    font-weight: 600;
+}
+
+.seerr-requests-year {
+    font-size: 1.2rem;
+    color: var(--jf-text-secondary);
+}
+
+.seerr-requests-status {
+    padding: 6px 18px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.seerr-requests-status.pending {
+    color: #fbbf24;
+    background: rgba(245, 158, 11, 0.2);
+    border-color: rgba(245, 158, 11, 0.6);
+}
+
+.seerr-requests-status.approved {
+    color: #4ade80;
+    background: rgba(34, 197, 94, 0.2);
+    border-color: rgba(34, 197, 94, 0.6);
+}
+
+.seerr-requests-status.partial {
+    color: #facc15;
+    background: rgba(202, 138, 4, 0.25);
+    border-color: rgba(202, 138, 4, 0.7);
+}
+
+.seerr-requests-status.completed {
+    color: #c4b5fd;
+    background: rgba(124, 58, 237, 0.25);
+    border-color: rgba(124, 58, 237, 0.7);
+}
+
+.seerr-requests-status.downloading {
+    color: #93c5fd;
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.6);
+}
+
+.seerr-requests-status.declined {
+    color: #f87171;
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.6);
+}
+
+.seerr-requests-progress {
+    align-self: stretch;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    overflow: hidden;
+}
+
+.seerr-requests-progress > span {
+    display: block;
+    height: 100%;
+    background: rgba(59, 130, 246, 0.9);
+}
+
+.seerr-requests-user {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: auto;
+    font-size: 1.25rem;
+    color: var(--jf-text-secondary);
+}
+
+.seerr-requests-avatar {
+    position: relative;
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--jf-text-primary, #fff);
+    font-weight: 600;
+}
+
+.seerr-requests-avatar-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.seerr-requests-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.seerr-requests-btn.approve {
+    background: rgba(34, 197, 94, 0.35);
+    color: var(--jf-text-primary, #fff);
+}
+
+.seerr-requests-btn.decline {
+    background: rgba(239, 68, 68, 0.35);
+    color: var(--jf-text-primary, #fff);
+}
+
+.seerr-requests-empty {
+    padding: 40px 0;
+    text-align: center;
+    color: var(--jf-text-secondary);
+}
+
+#requests-more {
+    display: block;
+    margin: 28px auto 40px;
+}
+
+#requests-more.hidden {
+    display: none;
+}
+
+/* Manage Requests entry link: TV-sized */
+.discover-requests-link {
+    padding: 18px 40px;
+    border-width: 3px;
+    border-radius: 12px;
+    font-size: 1.6rem;
+    font-weight: 600;
+}

@@ -595,6 +595,64 @@ export class SeerrClient {
         return this._request(`/Requests/${requestId}`, { method: 'DELETE' });
     }
 
+    /**
+     * Calls a Seerr request route, falling back across the casing variants the
+     * companion plugin may expose (/request -> /Request -> /Requests).
+     * @param {string} suffix - Path after the route root, e.g. '' or '/12/approve'
+     * @param {Object} [options] - Forwarded to _request
+     * @returns {Promise<any>}
+     * @private
+     */
+    async _requestRoute(suffix, options = {}) {
+        let lastErr = null;
+        for (const root of ['/request', '/Request', '/Requests']) {
+            try {
+                return await this._request(`${root}${suffix}`, options);
+            } catch (err) {
+                if (err.status !== 404) throw err;
+                lastErr = err;
+            }
+        }
+        throw lastErr;
+    }
+
+    /**
+     * Lists raw request records (not media cards) for the Requests page.
+     * @param {string} [filter='pending'] - Seerr filter: all|pending|approved|processing|available|failed
+     * @param {number} [take=20]
+     * @param {number} [skip=0]
+     * @returns {Promise<{results: Array<Object>, total: number}>}
+     */
+    async requestList(filter = 'pending', take = 20, skip = 0) {
+        const payload = await this._requestRoute(`?take=${take}&skip=${skip}&filter=${filter}&sort=added`);
+        const results = this._resultsOf(payload);
+        return { results, total: payload?.pageInfo?.results ?? results.length };
+    }
+
+    /**
+     * Whether the current user may approve or decline requests (Seerr ADMIN=2, MANAGE_REQUESTS=16).
+     * @returns {Promise<boolean>}
+     */
+    async canManageRequests() {
+        try {
+            const user = await this._request('/User');
+            return !!((user?.permissions || 0) & (2 | 16));
+        } catch (err) {
+            log.warn('Failed to resolve Seerr permissions', err);
+            return false;
+        }
+    }
+
+    async approveRequest(requestId) {
+        log.info(`Approving request ${requestId}`);
+        return this._requestRoute(`/${requestId}/approve`, { method: 'POST', body: {} });
+    }
+
+    async declineRequest(requestId) {
+        log.info(`Declining request ${requestId}`);
+        return this._requestRoute(`/${requestId}/decline`, { method: 'POST', body: {} });
+    }
+
     async getUsers(take = 1000, sort = 'displayname') {
         try {
             const data = await this._request(`/Users?take=${take}&sort=${encodeURIComponent(sort)}`);
